@@ -1,24 +1,19 @@
-#include "revert_string.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "revert_string.h"
+
 void RevertString(char *str)
 {
-    int count, end = 0;
-	while (str[count] != '\0') count++;
-      
-     end = count - 1;
-     printf("count: %i\n", count);
-     printf("end: %i\n", end);
-     char *temp = malloc(sizeof(char) * (count + 1));
-     for (int i = 0; i < count; i++)
-     {
-         temp[i] = str[end];
-         end--;
-     }
-     strcpy(str, temp);
-     free(temp);
-}
+	int len = strlen(str);
+	for (int i = 0; i < len/2; i++)
+	{
+	   char tmp;
+	   tmp = *(str + i);
+	   *(str + i) = *(str + len - i - 1);
+        *(str + len - i - 1) = tmp;
+	}
+};
 
 
