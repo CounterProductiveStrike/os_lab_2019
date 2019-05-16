@@ -14,9 +14,10 @@
 int main(int argc, char *argv[]) {
   int fd;
   int nread;
+  int bufSize = -1;
   char buf[BUFSIZE];
   struct sockaddr_in servaddr;
-  if (argc < 3) {
+  if (argc < 4) {
     printf("Too few arguments \n");
     exit(1);
   }
@@ -35,6 +36,19 @@ int main(int argc, char *argv[]) {
   }
 
   servaddr.sin_port = htons(atoi(argv[2]));
+  
+  bufSize = atoi(argv[3]);
+  if(bufSize == -1){
+      printf("Wait, that's illegal");
+      exit(1);
+  } 
+  //buf = (char*) malloc(bufSize + 1);
+ 
+  
+  printf("%x\n", atoi(argv[2]));
+  
+  printf("%s\n", inet_ntoa(servaddr.sin_addr));
+  printf("%x\n", servaddr.sin_port);
 
   if (connect(fd, (SADDR *)&servaddr, SIZE) < 0) {
     perror("connect");
@@ -50,5 +64,6 @@ int main(int argc, char *argv[]) {
   }
 
   close(fd);
+  //free(buf);
   exit(0);
 }

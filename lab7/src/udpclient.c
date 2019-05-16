@@ -17,17 +17,27 @@
 int main(int argc, char **argv) {
   int sockfd, n;
   char sendline[BUFSIZE], recvline[BUFSIZE + 1];
+  short port = -1;
   struct sockaddr_in servaddr;
   struct sockaddr_in cliaddr;
+  
+  if (argc < 3) {
+    printf("Too few arguments \n");
+    exit(1);
+  }
+ 
 
-  if (argc != 2) {
+  if (argc != 3) {
     printf("usage: client <IPaddress of server>\n");
     exit(1);
   }
+  
+    port = atoi(argv[2]);
+  
 
   memset(&servaddr, 0, sizeof(servaddr));
   servaddr.sin_family = AF_INET;
-  servaddr.sin_port = htons(SERV_PORT);
+  servaddr.sin_port = htons(port);
 
   if (inet_pton(AF_INET, argv[1], &servaddr.sin_addr) < 0) {
     perror("inet_pton problem");
